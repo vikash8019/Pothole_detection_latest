@@ -42,8 +42,7 @@ Computer Vision
 pothole_detection/
 │
 ├── app.py                 # Main Streamlit Application
-├── model/
-│   └── best.pt            # Trained YOLO Model
+├── best.pt                # Trained YOLO Model
 ├── images/                # Sample images
 ├── videos/                # Sample videos
 ├── requirements.txt       # Dependencies
@@ -51,8 +50,8 @@ pothole_detection/
 
 ⚙️ Installation & Setup
 1. Clone Repository
-git clone https://github.com/your-username/pothole-detection.git
-cd pothole-detection
+git clone https://github.com/vikash8019/pothole-detection.git
+cd pothole_detection_latest
 
 2. Create Virtual Environment (Recommended)
 python -m venv venv
@@ -125,7 +124,7 @@ It provides an efficient and scalable solution for pothole detection, making roa
 
 👨‍💻 Author
 
-Vikash Singh
+Vikash Kumar Singh
 AI & ML Enthusiast | Python Developer
 
 ⭐ If you like this project
