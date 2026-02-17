@@ -122,6 +122,10 @@ Streamlit deployment errors
 This project demonstrates how AI and Computer Vision can be used to solve real-world infrastructure problems.
 It provides an efficient and scalable solution for pothole detection, making road inspection faster and more reliable.
 
+## 🚀 Live Demo
+You can try the application here:  
+https://potholedetectionlatest-2026.streamlit.app/
+
 👨‍💻 Author
 
 Vikash Kumar Singh
