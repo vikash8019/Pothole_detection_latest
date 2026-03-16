@@ -124,7 +124,7 @@ The goal of this project is to help in road safety, smart city planning, and aut
 
 ## 🚀 Live Demo
 You can try the application here:  
-https://potholedetectionlatest-2026.streamlit.app/
+https://potholedetectionlatest-5pabdteolypggkqn6nfwhb.streamlit.app/
 
 👨‍💻 Author
 
