@@ -386,6 +386,7 @@ st.sidebar.info("""
 tab1, tab2, tab3 = st.tabs(["🖼️ Image Detection", "🎥 Video Analysis", "📷 Live Camera"])
 
 # ================= IMAGE TAB =================
+# ================= IMAGE TAB - FIXED =================
 with tab1:
     st.markdown("### Upload an image to detect potholes")
     
@@ -401,55 +402,60 @@ with tab1:
     with col_info:
         st.info("💡 **Tips:**\n- Use clear images\n- Good lighting helps\n- Close-up shots work best")
     
-    if uploaded_file:
-        image = Image.open(uploaded_file)
+    if uploaded_file is not None:  # ✅ Changed from 'if uploaded_file:' to 'is not None'
+        try:
+            image = Image.open(uploaded_file)
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("#### 📥 Original Image")
+                st.image(image, use_container_width=True)
+            
+            st.markdown("")
+            
+            if st.button("🔍 Detect Potholes", use_container_width=True):
+                with st.spinner("🔄 Analyzing image... Please wait"):
+                    results = model(image, conf=confidence, max_det=50, iou=0.7)
+                    annotated = results[0].plot()
+                    count = len(results[0].boxes)
+                
+                with col2:
+                    st.markdown("#### ✅ Detection Results")
+                    st.image(annotated, use_container_width=True)
+                
+                # Metrics
+                st.markdown("---")
+                col_m1, col_m2, col_m3 = st.columns(3)
+                
+                with col_m1:
+                    st.metric("🕳️ Potholes Detected", count)
+                
+                with col_m2:
+                    st.metric("📊 Confidence Level", f"{confidence:.2f}")
+                
+                with col_m3:
+                    status = "⚠️ Action Needed" if count > 0 else "✅ Road Clear"
+                    st.metric("🚦 Status", status)
+                
+                # Download
+                st.markdown("---")
+                result_img = Image.fromarray(annotated)
+                buf = io.BytesIO()
+                result_img.save(buf, format="PNG")
+                byte_im = buf.getvalue()
+                
+                st.download_button(
+                    "💾 Download Detection Result",
+                    byte_im,
+                    file_name="pothole_detection_result.png",
+                    mime="image/png",
+                    use_container_width=True
+                )
         
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("#### 📥 Original Image")
-            st.image(image, use_container_width=True)
-        
-        st.markdown("")
-        
-        if st.button("🔍 Detect Potholes", use_container_width=True):
-            with st.spinner("🔄 Analyzing image... Please wait"):
-                results = model(image, conf=confidence, max_det=50, iou=0.7)
-                annotated = results[0].plot()
-                count = len(results[0].boxes)
-            
-            with col2:
-                st.markdown("#### ✅ Detection Results")
-                st.image(annotated, use_container_width=True)
-            
-            # Metrics
-            st.markdown("---")
-            col_m1, col_m2, col_m3 = st.columns(3)
-            
-            with col_m1:
-                st.metric("🕳️ Potholes Detected", count)
-            
-            with col_m2:
-                st.metric("📊 Confidence Level", f"{confidence:.2f}")
-            
-            with col_m3:
-                status = "⚠️ Action Needed" if count > 0 else "✅ Road Clear"
-                st.metric("🚦 Status", status)
-            
-            # Download
-            st.markdown("---")
-            result_img = Image.fromarray(annotated)
-            buf = io.BytesIO()
-            result_img.save(buf, format="PNG")
-            byte_im = buf.getvalue()
-            
-            st.download_button(
-                "💾 Download Detection Result",
-                byte_im,
-                file_name="pothole_detection_result.png",
-                mime="image/png",
-                use_container_width=True
-            )
+        except Exception as e:
+            st.error(f"❌ Error processing image: {str(e)}")
+            st.info("Please try uploading a different image.")
 
 # ================= VIDEO TAB =================
 with tab2:
