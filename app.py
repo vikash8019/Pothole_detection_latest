@@ -385,7 +385,6 @@ st.sidebar.info("""
 # ---------------- TABS ----------------
 tab1, tab2, tab3 = st.tabs(["🖼️ Image Detection", "🎥 Video Analysis", "📷 Live Camera"])
 
-# ================= IMAGE TAB =================
 # ================= IMAGE TAB - FIXED =================
 with tab1:
     st.markdown("### Upload an image to detect potholes")
@@ -402,7 +401,7 @@ with tab1:
     with col_info:
         st.info("💡 **Tips:**\n- Use clear images\n- Good lighting helps\n- Close-up shots work best")
     
-    if uploaded_file is not None:  # ✅ Changed from 'if uploaded_file:' to 'is not None'
+    if uploaded_file is not None:
         try:
             image = Image.open(uploaded_file)
             
@@ -410,7 +409,7 @@ with tab1:
             
             with col1:
                 st.markdown("#### 📥 Original Image")
-                st.image(image, use_container_width=True)
+                st.image(image, use_column_width=True)  # ✅ FIXED
             
             st.markdown("")
             
@@ -422,7 +421,7 @@ with tab1:
                 
                 with col2:
                     st.markdown("#### ✅ Detection Results")
-                    st.image(annotated, use_container_width=True)
+                    st.image(annotated, use_column_width=True)  # ✅ FIXED
                 
                 # Metrics
                 st.markdown("---")
@@ -457,7 +456,7 @@ with tab1:
             st.error(f"❌ Error processing image: {str(e)}")
             st.info("Please try uploading a different image.")
 
-# ================= VIDEO TAB =================
+# ================= VIDEO TAB - FIXED =================
 with tab2:
     st.markdown("### Upload a video for frame-by-frame analysis")
     
@@ -499,7 +498,7 @@ with tab2:
                 annotated = results[0].plot()
                 total_detections += len(results[0].boxes)
                 
-                stframe.image(annotated, channels="BGR", use_container_width=True)
+                stframe.image(annotated, channels="BGR", use_column_width=True)  # ✅ FIXED
                 
                 frame_count += 1
                 progress_bar.progress(frame_count / total_frames)
@@ -514,7 +513,7 @@ with tab2:
             with col_v2:
                 st.metric("🕳️ Total Detections", total_detections)
 
-# ================= LIVE CAMERA TAB =================
+# ================= LIVE CAMERA TAB - FIXED =================
 with tab3:
     st.markdown("### Use your camera for real-time detection")
     
@@ -536,11 +535,11 @@ with tab3:
         
         with col1:
             st.markdown("#### 📥 Captured Image")
-            st.image(image, use_container_width=True)
+            st.image(image, use_column_width=True)  # ✅ FIXED
         
         with col2:
             st.markdown("#### ✅ Detection Results")
-            st.image(annotated, use_container_width=True)
+            st.image(annotated, use_column_width=True)  # ✅ FIXED
         
         # Metrics
         st.markdown("---")
@@ -580,4 +579,3 @@ st.markdown("""
     <p style="font-size: 0.8rem; color: #a0aec0;">Helping make roads safer, one detection at a time</p>
 </div>
 """, unsafe_allow_html=True)
-
